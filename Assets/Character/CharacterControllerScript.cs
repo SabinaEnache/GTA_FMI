@@ -20,8 +20,8 @@ public class CharacterControllerScript : MonoBehaviour
     void Update()
     {
         // Detectează intrările de mișcare
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float moveForward = Input.GetAxis("Vertical");
+        float moveSideways = Input.GetAxis("Horizontal");
 
         // Detectează click-ul stânga pentru a activa animația de punch
         if (Input.GetMouseButtonDown(0)) // 0 este pentru click-ul stânga
@@ -30,7 +30,7 @@ public class CharacterControllerScript : MonoBehaviour
         }
 
         // Calculează vectorul de mișcare
-        Vector3 movement = new Vector3(horizontal, 0f, vertical);
+        Vector3 movement = transform.forward * moveForward + transform.right * moveSideways;
 
         // Dacă există mișcare și personajul nu sare, setează isRunning la true
         if (movement.magnitude > 0 && !isJumping)
@@ -57,16 +57,20 @@ public class CharacterControllerScript : MonoBehaviour
     }
 
     void MoveCharacter(Vector3 movement)
-{
-    // Mișcă personajul pe direcția calculată
-    transform.Translate(movement * speed * Time.deltaTime, Space.World);
-
-    // Schimbă orientarea personajului doar dacă există mișcare
-    if (movement != Vector3.zero)
     {
-        transform.rotation = Quaternion.LookRotation(movement);
+        // Mișcă personajul pe direcția calculată
+        transform.Translate(movement * speed * Time.deltaTime, Space.World);
+
+        // Schimbă orientarea personajului doar dacă există mișcare
+        if (movement != Vector3.zero)
+        {
+            // Calculează rotația dorită pe baza direcției de mișcare
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+
+            // Aplică rotația cu o viteză controlată folosind Slerp
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
     }
-}
 
 
     void StartJump()
