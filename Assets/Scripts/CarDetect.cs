@@ -7,6 +7,7 @@ public class CarDetect : MonoBehaviour
     public GameObject carCam; // Camera pentru mașină
     public GameObject characterCam; // Camera pentru caracter
     private CarController carController = null;
+    private PoliceSpawner PoliceSpawnerr;
     
     void Update()
     {
@@ -42,6 +43,8 @@ public class CarDetect : MonoBehaviour
 
     public void SitInCar(GameObject car)
     {
+        PoliceSpawnerr=car.GetComponent<PoliceSpawner>();
+        PoliceSpawnerr.policeGonSpawn = 1;
         transform.position = car.transform.position;
         carController = car.GetComponent<CarController>();
         if (carController != null)

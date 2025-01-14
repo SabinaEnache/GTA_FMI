@@ -8,6 +8,7 @@ public class NPCDialogue : MonoBehaviour
     public Text dialogueText; // Textul de dialog
     private int currentLineIndex = 0;
     private Animator animator;
+    public GameObject checkpoint2;
     private bool isPlayerNearby = false; // Dacă jucătorul este aproape
     private bool isTalking = false; // Dacă dialogul este activ
 
@@ -50,6 +51,7 @@ public class NPCDialogue : MonoBehaviour
         }
         else
         {
+            
             EndDialogue();
         }
     }

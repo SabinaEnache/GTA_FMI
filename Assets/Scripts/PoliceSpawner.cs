@@ -4,7 +4,7 @@ public class PoliceSpawner : MonoBehaviour
 {
     public GameObject carPrefab; // Prefab-ul mașinii de poliție
     public Vector3[] spawnCoordinates; // Coordonatele unde vor fi instanțiate mașinile
-    public int policeGonSpawn = 1; // Variabila de control pentru spawn
+    public int policeGonSpawn = 0; // Variabila de control pentru spawn
     private bool hasSpawned = false; // Previne spawnarea multiplă
     public GameObject carCamera;
 
@@ -24,9 +24,10 @@ public class PoliceSpawner : MonoBehaviour
         {
             Vector3 spawnDirection = carCamera.transform.forward;
             Debug.Log($"Încerc să spawnez o mașină la coordonatele: {spawnCoord}");
-        
+            Quaternion spawnRotation = Quaternion.LookRotation(spawnDirection) * Quaternion.Euler(0, -90, 0);
+
             // Instanțiază o mașină la coordonatele specificate
-            GameObject carInstance = Instantiate(carPrefab, spawnCoord, Quaternion.LookRotation(spawnDirection));
+            GameObject carInstance = Instantiate(carPrefab, spawnCoord, spawnRotation);
 
             // Verifică dacă instanțierea a fost reușită
             if (carInstance != null)
